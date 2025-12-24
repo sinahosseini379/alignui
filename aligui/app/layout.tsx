@@ -1,7 +1,17 @@
 import type { Metadata } from "next";
+import { Inter } from "next/font/google";           // فونت Inter اضافه شد
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { ThemeProvider } from "next-themes";         // برای مدیریت dark mode
+import { cn } from "@/utils/cn";                     // اگر نداری، می‌تونی حذف کنی یا بسازی
 
+// فونت Inter
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-sans",
+});
+
+// فونت‌های Geist که قبلاً داشتی
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -23,11 +33,23 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="fa" dir="rtl" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={cn(
+          inter.variable,          // Inter به عنوان فونت sans اصلی
+          geistSans.variable,      // Geist Sans
+          geistMono.variable,      // Geist Mono
+          "antialiased"
+        )}
       >
-        {children}
+        <ThemeProvider
+          attribute="data-theme"          // مهم برای Tailwind v4
+          defaultTheme="system"           // پیش‌فرض: دنبال تنظیمات سیستم
+          enableSystem                    // فعال کردن تشخیص سیستم
+          enableColorScheme               // اختیاری اما مفید
+        >
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   );
