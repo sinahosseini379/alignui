@@ -4,7 +4,8 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "next-themes";         // برای مدیریت dark mode
 import { cn } from "@/utils/cn";                     // اگر نداری، می‌تونی حذف کنی یا بسازی
-
+import { NotificationProvider } from '@/components/ui/notification-provider';
+import { Toaster } from '@/components/ui/toast';
 // فونت Inter
 const inter = Inter({
   subsets: ["latin"],
@@ -49,6 +50,8 @@ export default function RootLayout({
           enableColorScheme               // اختیاری اما مفید
         >
           {children}
+          <NotificationProvider />
+          <Toaster />
         </ThemeProvider>
       </body>
     </html>
